@@ -1,5 +1,5 @@
 <div class="flex flex-wrap">
-    @foreach ($data as $item)
+    @foreach ($cartItems as $item)
         <div id="contenedor-padre" style="
         display: flex;
         padding: 10px;">

@@ -1,39 +1,35 @@
 <?php
 
+use App\Http\Livewire\ShowProductos;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('inicio');
+
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
+   Route::get('/carrito', function () { return view('carrito'); })->name('carrito');
+    Route::get('/dashboard/{type?}', function () {
+        return view('dashboard', ['type' => request('type') ? request('type') : 'all']);
     })->name('dashboard');
 });
 
+Route::get('/dashboard/postres', function () {
+    return view('dashboard', ['type' => 'postres']);
+})->name('postres');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/carrito', function () {
-        return view('carrito');
-    })->name('carrito');
-});
+Route::get('/dashboard/bebidas', function () {
+    return view('dashboard', ['type' => 'bebidas']);
+})->name('bebidas');
+
+Route::get('/historial', function () {
+    return view('historial');
+})->name('historial');
+

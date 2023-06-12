@@ -7,6 +7,7 @@ use App\Models\Producto;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class ShowProductos extends Component
 {
@@ -14,14 +15,28 @@ class ShowProductos extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $nombre, $descripcion, $imagen, $precio, $cantidad;
-
+    public $type;
 
     public function render()
-    
-    {
-        $data = Producto::all();
-        return view('livewire.show-productos',compact('data'));
+    { 
+        
+        $cartItems = Producto::all();
+
+        if ($this->type === 'bebidas') {
+            $cartItems = Producto::where('categoria_id', 1)->get();
+        } elseif ($this->type === 'postres') {
+            $cartItems = Producto::where('categoria_id', 3)->get();
+        } else {
+            $cartItems = Producto::all();
+        }
+       
+        return view('livewire.show-productos', ['cartItems' => $cartItems]);
+    }
+
+    public function mount($type){
+
+        $this->type = $type;
+
     }
 
 }
