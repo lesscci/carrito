@@ -15,39 +15,52 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Productos') }}
                     </x-nav-link>
-                    <div class="relative"style="
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;"
-                    >
+                    <div
+                        class="relative"style=" display: flex;  flex-direction: column; justify-content: center;">
                         <x-dropdown>
                             <x-slot name="trigger">
                                 <button class="flex items-center space-x-1 text-gray-500 text-sm">
                                     <span>{{ __('Categorías') }}</span>
-                                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
                                     </svg>
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <x-nav-link href="{{ route('bebidas') }}">
-                                    
-                                    {{ __('Bebida') }}
-                                </x-nav-link>
-                                <x-nav-link href="{{ route('postres') }}">
-                                    {{ __('Postres') }}
-                                </x-nav-link>
+                                <div style="
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                            ">
+                                    <x-nav-link href="{{ route('bebidas') }}">
+
+                                        <img class="inline-flex  h-6 w-6" src="{{ asset('storage/botella.png') }}"
+                                            alt="Icono" />
+
+                                        {{ __('Bebida') }}
+                                    </x-nav-link>
+                                    <x-nav-link href="{{ route('postres') }}">
+                                        <img class="inline-flex  h-6 w-6" src="{{ asset('storage/pastel.png') }}"
+                                            alt="Icono" />
+                                        {{ __('Postres') }}
+                                    </x-nav-link>
+                                </div>
                             </x-slot>
                         </x-dropdown>
                     </div>
+                    @role('admin')
+                    <x-nav-link href="{{ route('panelControl') }}" :active="request()->routeIs('panelControl')">
+                        {{ __('Panel de control') }}
+                    </x-nav-link>
+                    @endrole
                 </div>
-                
-                
-
 
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">

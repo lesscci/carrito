@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Producto;
+use App\Models\DetalleCompra;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class HistorialCompra extends Model
+class HistorialCompras extends Model
 {
     use HasFactory;
 
@@ -32,4 +33,17 @@ class HistorialCompra extends Model
     {
         return $this->belongsTo(Producto::class);
     }
+
+    public function detalles()
+    {
+        return $this->hasMany(DetalleCompra::class, 'historial_compra_id');
+    }
+    
+
+    public function getCantidadAttribute()
+    {
+        return $this->detalles()->sum('cantidad');
+    }
+
+
 }

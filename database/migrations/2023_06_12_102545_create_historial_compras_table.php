@@ -14,14 +14,10 @@ return new class extends Migration
         Schema::create('historial_compras', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('producto_id');
-            $table->integer('cantidad');
-            $table->decimal('precio', 8, 2);
-            $table->timestamp('fecha')->nullable();
+            $table->date('fecha');
+            $table->decimal('total', 8, 2);
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('producto_id')->references('id')->on('productos');
         });
     }
 

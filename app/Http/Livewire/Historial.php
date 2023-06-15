@@ -1,38 +1,61 @@
 <?php
 
 namespace App\Http\Livewire;
+
 use Livewire\Component;
-use App\Models\HistorialCompra;
+use App\Models\Producto;
+use App\Models\HistorialCompras;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Redirect;
 
 class Historial extends Component
 {
-    public $historialesCompras;
-    public $total;
+    public $open = true;
+    public $historialSeleccionado;
+    public $productos;
+    public $totalUnidades; // Variable para almacenar el número total de unidades
 
+    public function mount()
+    {
+        $this->open = false; 
+        $user = Auth::user();
+        $this->historialesCompras = HistorialCompras::where('user_id', $user->id)->get();
+        $this->productos = [];
+        $this->totalUnidades = 0; // Inicializar el total de unidades en 0
+    }
 
-public function mount($total){
+    public function redirectToHistorial()
+    {
+        return Redirect::route('historial');
+    }
     
-    $this->total = $total;
-    $user = Auth::user();
-    $this->total = Session::get('cart.total', 0);
 
-  $this->historialesCompras = HistorialCompra::with('producto')->get();
-  foreach ($this->historialesCompras as $historialCompra) {
-}
-}
+    public function verDetalles($historialCompraId)
+    {
+        $this->historialSeleccionado = HistorialCompras::findOrFail($historialCompraId);
+     
+        $this->productos = $this->historialSeleccionado->detalles->map(function ($detalle) {
+            return [
+                'producto' => $detalle->producto->nombre,  // Asumiendo que el modelo Producto tiene un atributo 'nombre'
+                'cantidad' => $detalle->cantidad,
+                'costo' => $detalle->precio,
+            ];
+        })->all();
+        
+        $this->totalUnidades = collect($this->productos)->sum('cantidad'); // Calcular el número total de unidades
 
+        $this->open = true;
+    }
     
-public function render()
-{
-    $user = Auth::user();
-    $this->historialesCompras = HistorialCompra::with('producto')->get();
 
-    return view('livewire.historial-compras', [
-        'historialesCompras' => $this->historialesCompras,
-    ]);
-}
+    public function render()
+    {
 
+        
+        return view('livewire.historial-compras', [
+            'productos' => $this->productos,
+            'totalUnidades' => $this->totalUnidades, // Pasar el número total de unidades a la vista
+        ]);
+    }
+    
 }
