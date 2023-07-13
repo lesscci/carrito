@@ -8,9 +8,11 @@ use App\Models\Producto;
 class ProductosAdmin extends Component
 {
     public $open = false;
+    public $open_create = false;
     public $editItem;
     public $cartItems;
     public $producto;
+
 
     public function render()
     {
@@ -56,5 +58,16 @@ class ProductosAdmin extends Component
     {
         $this->editItem = Producto::find($itemId);
         $this->open = true;
+    }
+
+    public function create(){
+
+        $producto = Producto::create([
+            'nombre' => $this->nombre,
+            'descripcion' => $this->descripcion, 
+            'precio' => $this->precio, 
+            'stock' => $this->stock, 
+            'categoria' => $this->categoria,
+        ]);
     }
 }

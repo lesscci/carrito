@@ -9,10 +9,10 @@
                 <ul role="list" class="divide-y divide-gray-100">
                     <li class="flex justify-between gap-x-6 py-5 ">
                         <div class="flex gap-x-4">
-                            <div style="display: flex; justify-content: center;">
-                                <img src="{{ $producto->options->get('imagen') }}" style="width: 90px; height: 100px;">
-                            </div>
-                            <div class="min-w-0 flex-auto" style="align-self: center;">
+                            <div class="flex justify-center">
+                                <img src="{{ $producto->options->get('imagen') }}" class="w-90 h-100">
+                              </div>                              
+                              <div class="min-w-0 self-center">
                                 <p class="text-sm font-semibold leading-6 text-gray-900">{{ $producto->name }}</p>
                                 <p class="mt-1 truncate text-xs leading-5 text-gray-500">
                                     @if (isset($producto->options['descripcion']))
@@ -21,9 +21,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="hidden sm:flex sm:flex-col sm:items-end"
-                            style="display: flex; align-items: center; gap:10px;">
-                            <div>
+                        <div class="hidden sm:flex sm:flex-col sm:items-end flex items-center gap-10">
                                 <input type="number" class="w-16 px-2 py-1 border border-gray-300"
                                     wire:model="cantidad.{{ $producto->rowId }}" min="1"
                                     value="{{ $cantidad[$producto->rowId] ?? $producto->qty }}"
@@ -48,7 +46,7 @@
             <hr class="my-4">
         @endforeach
 
-        <div class="py-4" style="display: flex; justify-content: flex-end;">
+        <div class="py-4 flex justify-end">
             TOTAL<span class="font-bold"> {{ $total }}€</span>
         </div>
         <hr class="my-4">

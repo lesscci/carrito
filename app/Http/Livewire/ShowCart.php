@@ -117,15 +117,6 @@ class ShowCart extends Component
     }
     
 
-    public function create(){
-
-        $producto = Producto::create([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion, 
-            'precio' => $this->precio, 
-            'stock' => $this->stock, 
-            'categoria' => $this->categoria,
-        ]);
-    }
+   
 
 }
